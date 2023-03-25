@@ -56,7 +56,7 @@ local function on_dig(pos, node, player)
 			player:set_wielded_item(wielded_item)
 		end
 
-		if wielded_item:get_name() == 'vines:shears' then
+		if wielded_item:get_name() == 'vines:gardening_shears' then
 			drop_item = vine_name_end
 		end
 	end
@@ -339,8 +339,8 @@ if enable_rope ~= false then
 end
 
 -- SHEARS
-minetest.register_tool("vines:shears", {
-	description = S("Shears"),
+minetest.register_tool("vines:gardening_shears", {
+	description = S("Gardening Shears"),
 	inventory_image = "vines_shears.png",
 	wield_image = "vines_shears.png",
 	stack_max = 1,
@@ -355,7 +355,7 @@ minetest.register_tool("vines:shears", {
 })
 
 minetest.register_craft({
-	output = 'vines:shears',
+	output = 'vines:gardening_shears',
 	recipe = {
 		{'', 'default:steel_ingot', ''},
 		{'group:stick', 'group:wood', 'default:steel_ingot'},
