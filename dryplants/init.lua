@@ -82,8 +82,12 @@ local function sickle_on_use(itemstack, user, pointed_thing, uses)
 	end
 	-- check if something that can be cut using fine tools
 	if minetest.get_item_group(under.name, "snappy") > 0 then
-		-- check if flora but no flower
-		if minetest.get_item_group(under.name, "flora") == 1 and minetest.get_item_group(under.name, "flower") == 0 then
+		-- check if dry_grass
+		if minetest.get_item_group(under.name, "dry_grass") == 1 then
+			-- turn the node into hay, wear out item and play sound
+			minetest.swap_node(pt.under, {name="dryplants:hay"})
+			-- check if flora but no flower and not dry_grass
+		elseif minetest.get_item_group(under.name, "flora") == 1 and minetest.get_item_group(under.name, "flower") == 0 then
 			-- turn the node into cut grass, wear out item and play sound
 			minetest.swap_node(pt.under, {name="dryplants:grass"})
 		else -- otherwise dig the node
@@ -110,6 +114,7 @@ local function sickle_on_use(itemstack, user, pointed_thing, uses)
 		itemstack:add_wear(65535/(uses-1))
 		return itemstack
 	end
+	
 end
 -- the tool
 minetest.register_tool("dryplants:sickle", {
@@ -130,13 +135,14 @@ minetest.register_node("dryplants:grass", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	tiles = {"dryplants_grass.png"},
+	walkable = false,
 	use_texture_alpha = "clip",
 	drawtype = "nodebox",
 	node_box = {
 	    type = "fixed",
         fixed = {-0.5   , -0.5   , -0.5   ,   0.5   , -0.4375,  0.5   },
     },
-	groups = {snappy=3, flammable=2},
+	groups = {snappy=3, flammable=2, attached_node = 3},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -159,6 +165,7 @@ minetest.register_node("dryplants:hay", {
 	description = S("Hay"),
 	inventory_image = "dryplants_hay.png",
 	wield_image = "dryplants_hay.png",
+	walkable = false,
 	paramtype = "light",
 	sunlight_propagates = true,
 	tiles = {"dryplants_hay.png"},
@@ -168,7 +175,7 @@ minetest.register_node("dryplants:hay", {
 	    type = "fixed",
         fixed = {-0.5   , -0.5   , -0.5   ,   0.5   , -0.4375,  0.5   },
     },
-	groups = {snappy=3, flammable=2},
+	groups = {snappy=3, flammable=2, attached_node = 3},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
