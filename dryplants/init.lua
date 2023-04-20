@@ -82,14 +82,15 @@ local function sickle_on_use(itemstack, user, pointed_thing, uses)
 	end
 	-- check if something that can be cut using fine tools
 	if minetest.get_item_group(under.name, "snappy") > 0 then
-		-- check if dry_grass
-		if minetest.get_item_group(under.name, "dry_grass") == 1 then
-			-- turn the node into hay, wear out item and play sound
-			minetest.swap_node(pt.under, {name="dryplants:hay"})
-			-- check if flora but no flower and not dry_grass
-		elseif minetest.get_item_group(under.name, "flora") == 1 and minetest.get_item_group(under.name, "flower") == 0 then
-			-- turn the node into cut grass, wear out item and play sound
-			minetest.swap_node(pt.under, {name="dryplants:grass"})
+		-- check if flora but no flower
+        if minetest.get_item_group(under.name, "flora") == 1 and minetest.get_item_group(under.name, "flower") == 0 then            
+			if minetest.get_item_group(under.name, "dry_grass") == 1 then
+				-- turn the node into hay, wear out item and play sound
+				minetest.swap_node(pt.under, {name="dryplants:hay"})
+			else
+				-- turn the node into cut grass, wear out item and play sound
+				minetest.swap_node(pt.under, {name="dryplants:grass"})
+			end
 		else -- otherwise dig the node
 			if not minetest.node_dig(pt.under, under, user) then
 				return
