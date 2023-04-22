@@ -33,9 +33,19 @@ minetest.register_craft({
 minetest.register_alias("archaeplantae:fiddlehead",      "ferns:fiddlehead")
 
 minetest.register_craftitem("ferns:fiddlehead", {
-	description = S("Fiddlehead"),
+	description = S("Fiddlehead") .. '\n' ..
+    minetest.colorize('#DEB887', S('Hunger') .. ': -1'),
 	inventory_image = "ferns_fiddlehead.png",
-	on_use = minetest.item_eat(-1), -- slightly poisonous when raw
+	on_use = function(itemstack, user, pointed_thing)
+		local hunger_amount = minetest.get_item_group(itemstack:get_name(), "hunger_amount") or 0
+		if hunger_amount == 0 then 
+			return itemstack
+		end
+		minetest.item_eat(hunger_amount)
+	end, -- slightly poisonous when raw
+	groups = {
+		hunger_amount = -1
+	}
 })
 minetest.register_craft({
 	type = "cooking",
@@ -44,9 +54,19 @@ minetest.register_craft({
 	cooktime = 1,
 })
 minetest.register_craftitem("ferns:fiddlehead_roasted", {
-	description = S("Roasted Fiddlehead"),
+	description = S("Roasted Fiddlehead") .. '\n' ..
+    minetest.colorize('#DEB887', S('Hunger') .. ': 1'),
 	inventory_image = "ferns_fiddlehead_roasted.png",
-	on_use = minetest.item_eat(1), -- edible when cooked
+	on_use = function(itemstack, user, pointed_thing)
+		local hunger_amount = minetest.get_item_group(itemstack:get_name(), "hunger_amount") or 0
+		if hunger_amount == 0 then 
+			return itemstack
+		end
+		minetest.item_eat(hunger_amount)
+	end,
+	groups = {
+		hunger_amount = 1
+	}
 })
 -----------------------------------------------------------------------------------------------
 -- FERN TUBER
@@ -67,9 +87,19 @@ minetest.register_craft({
 minetest.register_alias("archaeplantae:ferntuber_roasted",      "ferns:ferntuber_roasted")
 
 minetest.register_craftitem("ferns:ferntuber_roasted", {
-	description = S("Roasted Fern Tuber"),
+	description = S("Roasted Fern Tuber") .. '\n' ..
+    minetest.colorize('#DEB887', S('Hunger') .. ': 3'),
 	inventory_image = "ferns_ferntuber_roasted.png",
-	on_use = minetest.item_eat(3),
+	on_use = function(itemstack, user, pointed_thing)
+		local hunger_amount = minetest.get_item_group(itemstack:get_name(), "hunger_amount") or 0
+		if hunger_amount == 0 then 
+			return itemstack
+		end
+		minetest.item_eat(hunger_amount)
+	end,
+	groups = {
+		hunger_amount = 3
+	}
 })
 -----------------------------------------------------------------------------------------------
 -- HORSETAIL  (EQUISETUM) --> GREEN DYE https://en.wikipedia.org/wiki/Equisetum
