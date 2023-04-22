@@ -13,35 +13,35 @@ fern1 = (fern1 and fern1.name) or "ferns:fern_01"
 minetest.register_craft({
 	type = "shapeless",
 	output = "ferns:fiddlehead 3",
-	recipe = {"ferns:fern_01"},
+	recipe = { "ferns:fern_01" },
 	replacements = {
-		{fern1, "ferns:ferntuber"}
+		{ fern1, "ferns:ferntuber" }
 	},
 })
 
 minetest.register_craft({
 	type = "shapeless",
 	output = "ferns:fiddlehead 3",
-	recipe = {"ferns:tree_fern_leaves"},
+	recipe = { "ferns:tree_fern_leaves" },
 	replacements = {
-		{"ferns:tree_fern_leaves", "ferns:sapling_tree_fern"}
+		{ "ferns:tree_fern_leaves", "ferns:sapling_tree_fern" }
 	},
 })
 -----------------------------------------------------------------------------------------------
 -- FIDDLEHEAD
 -----------------------------------------------------------------------------------------------
-minetest.register_alias("archaeplantae:fiddlehead",      "ferns:fiddlehead")
+minetest.register_alias("archaeplantae:fiddlehead", "ferns:fiddlehead")
 
 minetest.register_craftitem("ferns:fiddlehead", {
 	description = S("Fiddlehead") .. '\n' ..
-    minetest.colorize('#DEB887', S('Hunger') .. ': -1'),
+		minetest.colorize('#DEB887', S('Hunger') .. ': -1'),
 	inventory_image = "ferns_fiddlehead.png",
 	on_use = function(itemstack, user, pointed_thing)
 		local hunger_amount = minetest.get_item_group(itemstack:get_name(), "hunger_amount") or 0
-		if hunger_amount == 0 then 
+		if hunger_amount == 0 then
 			return itemstack
 		end
-		minetest.item_eat(hunger_amount)
+		return minetest.item_eat(hunger_amount)(itemstack, user, pointed_thing)
 	end, -- slightly poisonous when raw
 	groups = {
 		hunger_amount = -1
@@ -55,14 +55,14 @@ minetest.register_craft({
 })
 minetest.register_craftitem("ferns:fiddlehead_roasted", {
 	description = S("Roasted Fiddlehead") .. '\n' ..
-    minetest.colorize('#DEB887', S('Hunger') .. ': 1'),
+		minetest.colorize('#DEB887', S('Hunger') .. ': 1'),
 	inventory_image = "ferns_fiddlehead_roasted.png",
 	on_use = function(itemstack, user, pointed_thing)
 		local hunger_amount = minetest.get_item_group(itemstack:get_name(), "hunger_amount") or 0
-		if hunger_amount == 0 then 
+		if hunger_amount == 0 then
 			return itemstack
 		end
-		minetest.item_eat(hunger_amount)
+		return minetest.item_eat(hunger_amount)(itemstack, user, pointed_thing)
 	end,
 	groups = {
 		hunger_amount = 1
@@ -71,7 +71,7 @@ minetest.register_craftitem("ferns:fiddlehead_roasted", {
 -----------------------------------------------------------------------------------------------
 -- FERN TUBER
 -----------------------------------------------------------------------------------------------
-minetest.register_alias("archaeplantae:ferntuber",      "ferns:ferntuber")
+minetest.register_alias("archaeplantae:ferntuber", "ferns:ferntuber")
 
 minetest.register_craftitem("ferns:ferntuber", {
 	description = S("Fern Tuber"),
@@ -84,18 +84,18 @@ minetest.register_craft({
 	cooktime = 3,
 })
 
-minetest.register_alias("archaeplantae:ferntuber_roasted",      "ferns:ferntuber_roasted")
+minetest.register_alias("archaeplantae:ferntuber_roasted", "ferns:ferntuber_roasted")
 
 minetest.register_craftitem("ferns:ferntuber_roasted", {
 	description = S("Roasted Fern Tuber") .. '\n' ..
-    minetest.colorize('#DEB887', S('Hunger') .. ': 3'),
+		minetest.colorize('#DEB887', S('Hunger') .. ': 3'),
 	inventory_image = "ferns_ferntuber_roasted.png",
 	on_use = function(itemstack, user, pointed_thing)
 		local hunger_amount = minetest.get_item_group(itemstack:get_name(), "hunger_amount") or 0
-		if hunger_amount == 0 then 
+		if hunger_amount == 0 then
 			return itemstack
 		end
-		minetest.item_eat(hunger_amount)
+		return minetest.item_eat(hunger_amount)(itemstack, user, pointed_thing)
 	end,
 	groups = {
 		hunger_amount = 3
@@ -107,7 +107,7 @@ minetest.register_craftitem("ferns:ferntuber_roasted", {
 minetest.register_craft({
 	type = "shapeless",
 	output = "dye:green",
-	recipe = {"group:horsetail"},
+	recipe = { "group:horsetail" },
 })
 -----------------------------------------------------------------------------------------------
 -- GLUE WOODEN TOOLS with RESIN & POLISH them with HORSETAIL (planned)
