@@ -158,13 +158,16 @@ minetest.register_node("ferns:fern_trunk", {
 	},
 	groups = {tree=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,wood=1},
 	sounds = default.node_sound_wood_defaults(),
-	after_destruct = function(pos,oldnode)
+	after_dig_node = function(pos, node, metadata, digger)
+		default.dig_up(pos, node, digger)
+	end,
+	--[[after_destruct = function(pos,oldnode)
         local node = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z})
         if node.name == "ferns:fern_trunk" then
             minetest.dig_node({x=pos.x,y=pos.y+1,z=pos.z})
             minetest.add_item(pos,"ferns:fern_trunk")
         end
-    end,
+    end,--]]
 })
 
 -----------------------------------------------------------------------------------------------
