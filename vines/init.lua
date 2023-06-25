@@ -247,7 +247,6 @@ if enable_rope ~= false then
 			if placer ~= nil and placer:is_player() == true then
 				pl = placer:get_player_name()
 			end
-			minetest.log("pl: " .. pl or "nil")
 			if n.name == "air" then
 				minetest.add_node(p, { name = "vines:rope_end" })
 				local meta = minetest.get_meta(p)
