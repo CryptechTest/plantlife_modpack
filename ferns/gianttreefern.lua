@@ -181,14 +181,24 @@ minetest.register_node("ferns:tree_fern_leave_big", {
 	},
 	drop = "",
 	sounds = default.node_sound_leaves_defaults(),
-	after_destruct = function(pos,oldnode)
+	after_dig_node = function(pos, node, metadata, digger)
+		default.dig_up(pos, node, digger)
+		if digger == nil then return end
+		for _, d in pairs({{x=-1,z=0},{x=1,z=0},{x=0,z=-1},{x=0,z=1}}) do
+			local node = minetest.get_node({x=pos.x+d.x,y=pos.y+1,z=pos.z+d.z})
+			if node.name == "ferns:tree_fern_leave_big" then
+				minetest.dig_node({x=pos.x+d.x,y=pos.y+1,z=pos.z+d.z}, node, digger)
+			end
+		end
+	end,
+	--[[after_destruct = function(pos,oldnode)
 		for _, d in pairs({{x=-1,z=0},{x=1,z=0},{x=0,z=-1},{x=0,z=1}}) do
 			local node = minetest.get_node({x=pos.x+d.x,y=pos.y+1,z=pos.z+d.z})
 			if node.name == "ferns:tree_fern_leave_big" then
 				minetest.dig_node({x=pos.x+d.x,y=pos.y+1,z=pos.z+d.z})
 			end
 		end
-	end,
+	end,--]]
 })
 
 -----------------------------------------------------------------------------------------------
@@ -282,13 +292,16 @@ minetest.register_node("ferns:fern_trunk_big", {
 	},
 	groups = {tree=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,wood=1},
 	sounds = default.node_sound_wood_defaults(),
-	after_destruct = function(pos,oldnode)
+	after_dig_node = function(pos, node, metadata, digger)
+		default.dig_up(pos, node, digger)
+	end,
+	--[[after_destruct = function(pos,oldnode)
         local node = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z})
         if node.name == "ferns:fern_trunk_big" or node.name == "ferns:fern_trunk_big_top" then
             minetest.dig_node({x=pos.x,y=pos.y+1,z=pos.z})
             minetest.add_item(pos,"ferns:fern_trunk_big")
         end
-    end,
+    end,--]]
 })
 
 -----------------------------------------------------------------------------------------------
