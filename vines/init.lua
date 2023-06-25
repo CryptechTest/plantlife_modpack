@@ -240,12 +240,18 @@ if enable_rope ~= false then
 		},
 		groups = { flammable = 2, choppy = 2, oddly_breakable_by_hand = 1 },
 
-		after_place_node = function(pos)
+		after_place_node = function(pos, placer, itemstack, pointed_thing)
 			local p = { x = pos.x, y = pos.y - 1, z = pos.z }
 			local n = minetest.get_node(p)
-
+			local pl = ""
+			if placer ~= nil and placer:is_player() == true then
+				pl = placer:get_player_name()
+			end
+			minetest.log("pl: " .. pl or "nil")
 			if n.name == "air" then
 				minetest.add_node(p, { name = "vines:rope_end" })
+				local meta = minetest.get_meta(p)
+				meta:set_string("placer", pl)
 			end
 		end,
 
@@ -313,11 +319,15 @@ if enable_rope ~= false then
 			local n = minetest.get_node(p)
 			local meta = minetest.get_meta(pos)
 			local length = meta:get_int("rope_length") or 1
+			local name = meta:get_string("placer") or ""
 			if p.y > -11000 and p.y < 2000 and n.name == "air" and length < 1024 then
-				minetest.set_node(pos, { name = "vines:rope" })
-				minetest.add_node(p, { name = "vines:rope_end" })
-				meta = minetest.get_meta(p)
-				meta:set_int("rope_length", length + 1)
+				if not minetest.is_protected(pos, name) then
+					minetest.set_node(pos, { name = "vines:rope" })
+					minetest.add_node(p, { name = "vines:rope_end" })
+					meta = minetest.get_meta(p)
+					meta:set_int("rope_length", length + 1)
+					meta:set_string("placer", name)
+				end
 			else
 				local timer = minetest.get_node_timer(pos)
 
