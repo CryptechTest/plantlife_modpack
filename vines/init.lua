@@ -326,6 +326,10 @@ if enable_rope ~= false then
 					meta = minetest.get_meta(p)
 					meta:set_int("rope_length", length + 1)
 					meta:set_string("placer", name)
+				else
+					local timer = minetest.get_node_timer(pos)
+
+					timer:start(10)
 				end
 			else
 				local timer = minetest.get_node_timer(pos)
